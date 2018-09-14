@@ -97,25 +97,17 @@ var unifiedServer = function(req, res){
       res.setHeader('Content-Type', 'application/json');
       res.writeHead(statusCode);
       res.end(payloadString);
-
-      console.log('** statusCode: ', statusCode);
-      console.log('** payloadString: ', payloadString);
+      //console.log('** request: ', method, path, queryStringObject);
+      //console.log('** request headers: ', headers);
+      //console.log('** request buffer: ', buffer);
+      //console.log('** response: ', statusCode, payloadString);
     });
-
-/*
-    // Log the request path
-    console.log('++++ Request ++++');
-    console.log('-- path: ' + trimmedPath);
-    console.log('-- method: ' + method);
-    console.log('-- query: ', queryStringObject);
-    console.log('-- headers: ', headers);
-    console.log('-- buffer: ', buffer);
-    console.log('++++ (End) ++++'); */
   });
 };
 
 // Define a request router
 var router = {
   'ping': handlers.ping,
-  'users': handlers.users
+  'users': handlers.users,
+  'tokens': handlers.tokens
 };

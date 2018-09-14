@@ -95,6 +95,7 @@ lib.delete = function(dir, file, callback){
   // Unlink the file
   fs.unlink(lib.baseDir+dir+'/'+file+'.json', function(err){
     if (!err) {
+      console.log("File deleted: ", fs);
       callback(false);
     } else {
       callback('Error deleting the file.');
