@@ -408,7 +408,7 @@ handlers._checks.post = function (data, callback) {
                   userData.checks.push(checkId);
 
                   // save the new user data
-                  _data.update('user', userPhone, userData, function(err){
+                  _data.update('users', userPhone, userData, function(err){
                     if (!err) {
                       callback(200, checkObject);
                     } else {
