@@ -436,6 +436,46 @@ handlers._checks.post = function (data, callback) {
   }
 };
 
+// Checks - get
+// Required data: id
+// Optional data: none
+handlers._checks.get = function (data, callback) {
+  // Check that the id is valid
+  var id = typeof (data.queryStringObject.id) == 'string' && data.queryStringObject.id.trim().length == 20 ? data.queryStringObject.id.trim() : false;
+  if (id) {
+
+    // Lookup the check
+    _data.read('checks', id, function(err, checkData){
+      if (!err && checkData) {
+
+
+        // get the token from headers
+        var token = typeof (data.headers.token) == 'string' ? data.headers.token : false;
+        handlers._tokens.verifyToken(token, phone, function (tokenIsValid) {
+          if (tokenIsValid) {
+            _data.read('users', phone, function (err, data) {
+              if (!err && data) {
+                // Remove the hashed password from the user object before returning it
+                delete data.hashedPassword;
+                callback(200, data);
+              } else {
+                callback(404);
+              }
+            });
+          } else {
+            callback(403, { 'Error': 'Missing required token in header or invalid.' });
+          }
+        });
+
+      } else {
+        callback(404);
+      }
+    });
+  } else {
+    callback(400, { 'Error': 'Missing the required fields.' });
+  }
+};
+
 // Ping handler
 handlers.ping = function (data, callback){
   callback(200);
